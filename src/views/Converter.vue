@@ -221,35 +221,49 @@ export default {
       /**
        *
       */
+      if (typeof(this.activeChord) === 'undefined') {
 
-      //deselect any chord
-      this.songChords.forEach(function (element) {
-        element.selected = false;
-      });
+        //create the new chord
+        const newChord = {
+          id: uuid.v4(),
+          pos: data.pos,
+          name: data.name,
+          mod: "",
+          selected: true
+        };
 
-      //create the new chord
-      const newChord = {
-        id: uuid.v4(),
-        pos: data.pos,
-        name: data.name,
-        mod: "",
-        selected: true
-      };
+        //push it to the songChords array
+        this.songChords.push(newChord)
 
-      // push the newly created to the song list
-      this.songChords.push(newChord);
+      } else {
+        //get the position of the active chord
+        let index = this.songChords.findIndex(x => x.id === this.activeChord.id)
+        // add one to insert the new chord after the current selected
+        index += 1
+
+        //deselect the chord
+        this.activeChord.selected = false;
+
+        //create the new chord
+        const newChord = {
+          id: uuid.v4(),
+          pos: data.pos,
+          name: data.name,
+          mod: "",
+          selected: true
+        };
+
+        // push the newly created to the song list at specified position
+        this.songChords.splice(index, 0, newChord)
+      }
+
     },
     removeChord: function() {
-
 
       if (typeof(this.activeChord) !== 'undefined') {
         // remove it
         let index = this.songChords.findIndex(x => x.id === this.activeChord.id)
         this.songChords.splice(index, 1)
-
-        // select the next chord
-        this.songChords[index].selected = true;
-
       }
     },
     selectChord: function(data) {
