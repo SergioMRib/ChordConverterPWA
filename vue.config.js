@@ -3,6 +3,6 @@ module.exports = {
   productionSourceMap: false,
 
   pwa: {
-    name: 'first'
+    name: 'The Chord Converter'
   }
 }
