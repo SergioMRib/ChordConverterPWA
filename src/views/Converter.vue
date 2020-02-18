@@ -49,7 +49,7 @@
           </button>
           <button
             v-on:click="convert(-1)">
-            <font-awesome-icon icon="arrow-alt-circle-up" />
+            <font-awesome-icon icon="arrow-alt-circle-down" />
           </button>
           <button id="add-line-button"
             v-on:click="addLine">

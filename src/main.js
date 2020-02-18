@@ -3,6 +3,16 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 
+//font-awesome stuff
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faArrowAltCircleDown, faArrowAltCircleUp, faEraser, faTrash, faBars, faLevelDownAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faArrowAltCircleDown, faArrowAltCircleUp, faEraser, faTrash, faBars, faLevelDownAlt);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+
 Vue.config.productionTip = false
 
 new Vue({
