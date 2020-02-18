@@ -6,12 +6,16 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '',
+    component: Home
+  },
+  {
+    path: '/chord-converter/',
     name: 'home',
     component: Home
   },
   {
-    path: '/about',
+    path: '/chord-converter/about',
     name: 'about',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -19,15 +23,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/converter',
+    path: '/chord-converter/converter',
     name: 'converter',
     component: () => import('../views/Converter.vue')
   }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+
   routes
 })
 

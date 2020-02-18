@@ -2,6 +2,10 @@
   <div class="home">
     <div id="container">
 
+      <ul>
+        <li v-on:click="selectSystem('latin')">choose latin (Dó, Ré, Mi...)</li>
+        <li v-on:click="selectSystem('universal')">choose universal (C, D, E...)</li>
+      </ul>
       <ul class="song-list">
         <Chord
           v-bind:key="item.id"
@@ -14,7 +18,7 @@
         </Chord>
       </ul>
 
-      <div id="usables">
+      <div id="usables" v-show="chords">
         <ul class="list-of-chords">
           <Chord
             v-bind:key="item.pos"
@@ -81,7 +85,57 @@ export default {
   },
   data() {
     return {
-      chords: [{
+      chords: '',
+      latimChords: [{
+            pos:0,
+            name:"Lá"
+        },
+        {
+            pos:1,
+            name: "Lá#"
+        },
+        {
+            pos:2,
+            name:"Si"
+        },
+        {
+            pos:3,
+            name:"Dó"
+        },
+        {
+            pos:4,
+            name:"Dó#"
+        },
+        {
+            pos:5,
+            name:"Ré"
+        },
+        {
+            pos:6,
+            name:"Ré#"
+        },
+        {
+            pos:7,
+            name:"Mi"
+        },
+         {
+            pos:8,
+            name:"Fá"
+        },
+        {
+            pos:9,
+            name:"Fá#"
+        },
+        {
+            pos:10,
+            name:"Sol"
+        },
+        {
+            pos:11,
+            name:"Sol#"
+        }
+      ],
+      universalChords: [{
             pos:0,
             name:"A"
         },
@@ -158,14 +212,22 @@ export default {
     }
   },
   methods: {
+    selectSystem: function(choice) {
+      if (choice === "latin") {
+        this.chords = this.latimChords
+      } else {this.chords = this.universalChords}
+    },
     addChord: function(data) {
       /**
        *
       */
 
+      //deselect any chord
       this.songChords.forEach(function (element) {
         element.selected = false;
       });
+
+      //create the new chord
       const newChord = {
         id: uuid.v4(),
         pos: data.pos,
@@ -174,6 +236,7 @@ export default {
         selected: true
       };
 
+      // push the newly created to the song list
       this.songChords.push(newChord);
     },
     removeChord: function() {
@@ -190,10 +253,10 @@ export default {
       }
     },
     selectChord: function(data) {
+      if (typeof(this.activeChord) !== 'undefined') {
+        this.activeChord.selected = false;
+      }
 
-      this.songChords.forEach(function (element) {
-        element.selected = false;
-      })
       data.selected = !data.selected // toggles true and false
 
     },
@@ -226,7 +289,7 @@ export default {
       });
     },
     addLine: function() {
-      /* Creates a new empty chord object that fills all cells of the grid
+      /* Creates a new empty chord object that fills all cells of the line
        *
        */
       let emptyChord = {
