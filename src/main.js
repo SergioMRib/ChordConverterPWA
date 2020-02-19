@@ -5,10 +5,10 @@ import router from './router'
 
 //font-awesome stuff
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowAltCircleDown, faArrowAltCircleUp, faEraser, faTrash, faBars, faLevelDownAlt } from '@fortawesome/free-solid-svg-icons'
+import { faArrowAltCircleDown, faArrowAltCircleUp, faEraser, faTrash, faBars, faLevelDownAlt, faHandPointRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faArrowAltCircleDown, faArrowAltCircleUp, faEraser, faTrash, faBars, faLevelDownAlt);
+library.add(faArrowAltCircleDown, faArrowAltCircleUp, faEraser, faTrash, faBars, faLevelDownAlt, faHandPointRight);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

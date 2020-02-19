@@ -3,8 +3,14 @@
     <div id="container">
 
       <ul>
-        <li v-on:click="selectSystem('latin')">choose latin (Dó, Ré, Mi...)</li>
-        <li v-on:click="selectSystem('universal')">choose universal (C, D, E...)</li>
+        <li v-on:click="selectSystem('latin')">
+          <font-awesome-icon v-if="chordSystem === 'latin'" icon="hand-point-right" />
+          Choose latin (Dó, Ré, Mi...)
+        </li>
+        <li v-on:click="selectSystem('universal')">
+          <font-awesome-icon v-if="chordSystem === 'universal'" icon="hand-point-right" />
+          Choose universal (C, D, E...)
+        </li>
       </ul>
       <ul class="song-list">
         <Chord
@@ -48,7 +54,7 @@
             <font-awesome-icon icon="arrow-alt-circle-up" />
           </button>
           <button
-            v-on:click="songChords = []">
+            v-on:click="warning = true">
             <font-awesome-icon icon="trash" />
           </button>
           <button
@@ -63,7 +69,11 @@
       </div>
     </div>
 
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <div v-if="warning" class="clear-warning">
+      <p>Clear your entire song list?</p>
+      <button @click="songChords = []; warning = false">Yes</button>
+      <button @click="warning = false">No</button>
+    </div>
   </div>
 </template>
 
@@ -85,7 +95,9 @@ export default {
   },
   data() {
     return {
+      chordSystem: false,
       chords: '',
+      warning: false,
       latimChords: [{
             pos:0,
             name:"Lá"
@@ -213,6 +225,7 @@ export default {
   },
   methods: {
     selectSystem: function(choice) {
+      this.chordSystem = choice;
       if (choice === "latin") {
         this.chords = this.latimChords
       } else {this.chords = this.universalChords}
@@ -343,6 +356,7 @@ export default {
 
 <style scoped>
 
+
   #container {
     background-color: rgb(57, 73, 96);
   }
@@ -419,8 +433,23 @@ export default {
     grid-column: span 2;
   }
 
+  .clear-warning {
+    background-color: #698c7b93;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    padding: 5% 10% 10%;
+    border-radius: 10px;
+    box-shadow: 5px 5px #26334ad3;
+  }
+
   ul {
     list-style-type: none;
     padding: 0;
+  }
+  li:hover, button:hover {
+    cursor: pointer;
   }
 </style>
