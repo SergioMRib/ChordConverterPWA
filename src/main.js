@@ -15,6 +15,7 @@ import { faArrowAltCircleDown,
 
       } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import store from './store'
 
 library.add(faArrowAltCircleDown, faArrowAltCircleUp, faEraser, faTrash, faBars, faLevelDownAlt, faHandPointRight);
 
@@ -25,5 +26,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
