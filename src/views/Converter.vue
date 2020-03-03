@@ -12,6 +12,12 @@
           Choose universal (C, D, E...)
         </li>
       </ul>
+      <div id="song-management">
+        <span>
+          Save song by clicking here:
+        </span>
+        <button v-on:click="saveSongToStore('songChords')">save</button>
+      </div>
       <ul class="song-list">
         <Chord
           v-bind:key="item.id"
@@ -330,6 +336,10 @@ export default {
       this.songChords.push(emptyChord);
 
 
+    },
+    saveSongToStore: function() {
+      alert('saved song')
+      return
     }
   },
   computed: {
@@ -339,10 +349,8 @@ export default {
       return this.songChords[index]
     }
   },
-  mounted() {
-    if (localStorage.chords) {
-        this.songChords = JSON.parse(sessionStorage.chords)
-    }
+  mounted () {
+    return
   },
   watch: {
     songChords: function () {
