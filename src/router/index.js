@@ -23,6 +23,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
+    path: '/chord-converter/songs-manager',
+    name: 'songs-manager',
+    component: () => import('../views/SongsManager.vue')
+  },
+  {
     path: '/chord-converter/converter',
     name: 'converter',
     component: () => import('../views/Converter.vue')

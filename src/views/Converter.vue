@@ -1,7 +1,12 @@
 <template>
   <div class="home">
     <div id="container">
-
+      <p>
+        Enter your song title:
+        <input v-model="songTitle" type="text" 
+                placeholder="title here" name="songTitle" id="songTitle"
+                @submit="!editTitle">
+      </p>
       <ul>
         <li v-on:click="selectSystem('latin')">
           <font-awesome-icon v-if="chordSystem === 'latin'" icon="hand-point-right" />
@@ -13,11 +18,9 @@
         </li>
       </ul>
       <div id="song-management">
-        <span>
-          Save song by clicking here:
-        </span>
-        <button v-on:click="saveSongToStore('songChords')">save</button>
+        <button v-on:click="saveSongToStore">save</button>
       </div>
+      <h3> {{songTitle}}</h3>
       <ul class="song-list">
         <Chord
           v-bind:key="item.id"
@@ -77,7 +80,7 @@
 
     <div v-if="warning" class="clear-warning">
       <p>Clear your entire song list?</p>
-      <button @click="songChords = []; warning = false">Yes</button>
+      <button @click="songChords = []; songTitle = ''; warning = false">Yes</button>
       <button @click="warning = false">No</button>
     </div>
   </div>
@@ -104,6 +107,8 @@ export default {
       chordSystem: false,
       chords: '',
       warning: false,
+      editTitle: true,
+      songTitle: '',
       latimChords: [{
             pos:0,
             name:"Lá"
@@ -338,8 +343,11 @@ export default {
 
     },
     saveSongToStore: function() {
-      alert('saved song')
-      return
+      
+      //alert("save to song method called")
+      let song = {title: this.songTitle, chords: this.songChords}
+      this.$store.commit('addSong', song)
+      //this.$store.commit('increment')
     }
   },
   computed: {
@@ -347,10 +355,7 @@ export default {
         /* still in development */
       let index = this.songChords.findIndex(x => x.selected === true)
       return this.songChords[index]
-    }
-  },
-  mounted () {
-    return
+    },
   },
   watch: {
     songChords: function () {
@@ -358,6 +363,14 @@ export default {
         sessionStorage.setItem('chords', JSON.stringify(this.songChords))
       }
     },
+  },
+  created () {
+    //when opening the current chord should be empty, 
+    //when changing routes the song gets populated by the selected from the saved list
+    if (this.$store.state.currentSong.chords ) {
+      this.songTitle = this.$store.state.currentSong.title
+      this.songChords = this.$store.state.currentSong.chords
+    }
   }
 }
 </script>

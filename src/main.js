@@ -12,12 +12,13 @@ import { faArrowAltCircleDown,
         faBars,
         faLevelDownAlt,
         faHandPointRight,
-
+        faEdit
       } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import store from './store'
 
-library.add(faArrowAltCircleDown, faArrowAltCircleUp, faEraser, faTrash, faBars, faLevelDownAlt, faHandPointRight);
+library.add(faArrowAltCircleDown, faArrowAltCircleUp, faEraser, 
+            faEdit, faTrash, faBars, faLevelDownAlt, faHandPointRight);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
