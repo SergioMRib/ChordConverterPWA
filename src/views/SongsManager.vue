@@ -7,9 +7,12 @@
         v-for="(song, i) in songsList"
         v-bind:song="song"
         >
-        {{song.title}} 
+        {{song.title}}
         ({{i}})
         <button @click="getSong(i)">Get song</button>
+        <button @click="removeSong(i)">
+          <font-awesome-icon icon="trash" />
+        </button>
       </li>
     </ul>
   </div>
@@ -23,6 +26,9 @@ export default {
     methods: {
       getSong: function(index) {
         this.$store.commit('setCurrentSong', index)
+      },
+      removeSong: function (i) {
+        this.$store.commit('remove', i)
       }
 
     },
@@ -31,3 +37,4 @@ export default {
     })
   }
 </script>
+

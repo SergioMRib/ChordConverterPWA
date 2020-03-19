@@ -8,8 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     savedSongs: [],
-    currentSong: {},
-    count: 0
+    currentSong: {}
   },
   mutations: {
     addSong(state, song) {
@@ -17,15 +16,13 @@ export default new Vuex.Store({
       state.currentSong = song
     },
     setCurrentSong(state, index) {
+      state.currentSong = {}
       state.currentSong = state.savedSongs[index]
     },
-    remove() {
-      return 
+    remove(state, index) {
+      state.savedSongs.splice(index, 1)
+      state.currentSong = {}
     }, 
-    increment(state) {
-      //alert("increment mutation was called")
-      state.count++
-    } 
   },
   actions: {
     

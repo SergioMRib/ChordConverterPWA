@@ -7,7 +7,7 @@
                 placeholder="title here" name="songTitle" id="songTitle"
                 @submit="!editTitle">
       </p>
-      <ul>
+      <!-- <ul>
         <li v-on:click="selectSystem('latin')">
           <font-awesome-icon v-if="chordSystem === 'latin'" icon="hand-point-right" />
           Choose latin (Dó, Ré, Mi...)
@@ -16,7 +16,7 @@
           <font-awesome-icon v-if="chordSystem === 'universal'" icon="hand-point-right" />
           Choose universal (C, D, E...)
         </li>
-      </ul>
+      </ul> -->
       <div id="song-management">
         <button v-on:click="saveSongToStore">save</button>
       </div>
@@ -75,6 +75,14 @@
             <font-awesome-icon icon="level-down-alt" />
           </button>
         </div>
+        <ul class="chord-system">
+          <li v-on:click="selectSystem('latin')" v-bind:class="{latin: chordSystem}">
+            Choose latin (Dó, Ré, Mi...)
+          </li>
+          <li v-on:click="selectSystem('universal')" v-bind:class="{latin: !chordSystem}">
+            Choose universal (C, D, E...)
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -238,8 +246,12 @@ export default {
     selectSystem: function(choice) {
       this.chordSystem = choice;
       if (choice === "latin") {
+        this.chordSystem = true;
         this.chords = this.latimChords
-      } else {this.chords = this.universalChords}
+      } else {
+        this.chords = this.universalChords
+        this.chordSystem = false;
+        }
     },
     addChord: function(data) {
       /**
@@ -336,16 +348,17 @@ export default {
         name: "_",
         mod: "",
         fullLine: true,
-        selected: false
+        selected: true
       };
+      //deselect the chord
+      this.activeChord.selected = false;
+
       this.songChords.push(emptyChord);
-
-
     },
     saveSongToStore: function() {
       
       //alert("save to song method called")
-      let song = {title: this.songTitle, chords: this.songChords}
+      let song = {id: uuid.v4(), title: this.songTitle, chords: this.songChords}
       this.$store.commit('addSong', song)
       //this.$store.commit('increment')
     }
@@ -365,12 +378,13 @@ export default {
     },
   },
   created () {
-    //when opening the current chord should be empty, 
+    //when opening, the current chord should be empty, 
     //when changing routes the song gets populated by the selected from the saved list
     if (this.$store.state.currentSong.chords ) {
       this.songTitle = this.$store.state.currentSong.title
       this.songChords = this.$store.state.currentSong.chords
     }
+    this.selectSystem("universal")
   }
 }
 </script>
@@ -452,6 +466,19 @@ export default {
   }
   #add-line-button {
     grid-column: span 2;
+  }
+
+  .chord-system {
+    font-size: 0.8em;
+    font-weight: 300;
+    margin: 0;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .latin {
+    font-weight: 600;
   }
 
   .clear-warning {
