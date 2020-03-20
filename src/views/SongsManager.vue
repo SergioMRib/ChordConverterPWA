@@ -1,15 +1,16 @@
 <template>
   <div>
-    <h3>I'm Sérgio and I created this app.</h3>
+    <h3>Saved Songs</h3>
     <ul>
       <li
         v-bind:key="song.id"
         v-for="(song, i) in songsList"
         v-bind:song="song"
+        class = "songs"
         >
         {{song.title}}
-        ({{i}})
-        <button @click="getSong(i)">Get song</button>
+        
+        <button @click="getSong(i)">Load</button>
         <button @click="removeSong(i)">
           <font-awesome-icon icon="trash" />
         </button>
@@ -38,3 +39,24 @@ export default {
   }
 </script>
 
+<style scoped>
+  .songs {
+    text-align: left;
+    margin: 1em;
+  }
+
+button {
+  color: #42b983;
+  display: inline-block;
+  line-height: 3em;
+  padding: 0 1em;
+  background: #34343E;
+  border-radius: 0.5em;
+  background-clip: padding-box;
+  margin-right: 1em;
+  cursor: pointer;
+  border: 1px solid #EEE !important;
+	background: none
+}
+
+</style>

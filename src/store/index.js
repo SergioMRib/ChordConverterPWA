@@ -17,7 +17,12 @@ export default new Vuex.Store({
     },
     setCurrentSong(state, index) {
       state.currentSong = {}
-      state.currentSong = state.savedSongs[index]
+      state.currentSong = {
+        id: state.savedSongs[index].id,
+        title: state.savedSongs[index].title,
+        chords: state.savedSongs[index].chords
+      }
+      //state.currentSong = state.savedSongs[index]
     },
     remove(state, index) {
       state.savedSongs.splice(index, 1)

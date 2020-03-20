@@ -1,26 +1,19 @@
 <template>
   <div class="home">
     <div id="container">
-      <p>
+      
+      <form v-show="!songTitle" >
         Enter your song title:
-        <input v-model="songTitle" type="text" 
+        <input type="text" v-model.lazy="songTitle"
                 placeholder="title here" name="songTitle" id="songTitle"
-                @submit="!editTitle">
-      </p>
-      <!-- <ul>
-        <li v-on:click="selectSystem('latin')">
-          <font-awesome-icon v-if="chordSystem === 'latin'" icon="hand-point-right" />
-          Choose latin (Dó, Ré, Mi...)
-        </li>
-        <li v-on:click="selectSystem('universal')">
-          <font-awesome-icon v-if="chordSystem === 'universal'" icon="hand-point-right" />
-          Choose universal (C, D, E...)
-        </li>
-      </ul> -->
-      <div id="song-management">
-        <button v-on:click="saveSongToStore">save</button>
-      </div>
-      <h3> {{songTitle}}</h3>
+                >
+        <button type="submit"
+                v-on:click.prevent="hasTitle = true"
+                >Set title
+        </button>
+      </form>
+      <h3 v-if="songTitle"> {{songTitle}} </h3>
+
       <ul class="song-list">
         <Chord
           v-bind:key="item.id"
@@ -34,6 +27,8 @@
       </ul>
 
       <div id="usables" v-show="chords">
+        <button id="button-save-song" v-on:click="saveSongToStore">{{saveButtonText}}</button>
+        
         <ul class="list-of-chords">
           <Chord
             v-bind:key="item.pos"
@@ -55,20 +50,20 @@
         </ul>
         <div class="action-buttons">
           <button
-            v-on:click="removeChord">
-            <font-awesome-icon icon="eraser" />
-          </button>
-          <button
             v-on:click="convert(1)">
             <font-awesome-icon icon="arrow-alt-circle-up" />
           </button>
           <button
-            v-on:click="warning = true">
-            <font-awesome-icon icon="trash" />
+            v-on:click="removeChord">
+            <font-awesome-icon icon="eraser" />
           </button>
           <button
             v-on:click="convert(-1)">
             <font-awesome-icon icon="arrow-alt-circle-down" />
+          </button>
+          <button
+            v-on:click="clearWarning = true">
+            <font-awesome-icon icon="trash" />
           </button>
           <button id="add-line-button"
             v-on:click="addLine">
@@ -86,10 +81,15 @@
       </div>
     </div>
 
-    <div v-if="warning" class="clear-warning">
+    <div v-if="clearWarning" class="clear-warning">
       <p>Clear your entire song list?</p>
-      <button @click="songChords = []; songTitle = ''; warning = false">Yes</button>
-      <button @click="warning = false">No</button>
+      <button @click="songChords = []; songTitle = ''; clearWarning = false">Yes</button>
+      <button @click="clearWarning = false">No</button>
+    </div>
+
+    <div v-if="saveWarning" class="save-song-warning">
+      <p>Make sure you have a title for the song and chords!</p>
+      <button @click="saveWarning = false">Got it!</button>
     </div>
   </div>
 </template>
@@ -114,9 +114,10 @@ export default {
     return {
       chordSystem: false,
       chords: '',
-      warning: false,
-      editTitle: true,
+      clearWarning: false,
+      saveWarning: false,
       songTitle: '',
+      saveButtonText: 'Save this song',
       latimChords: [{
             pos:0,
             name:"Lá"
@@ -358,8 +359,16 @@ export default {
     saveSongToStore: function() {
       
       //alert("save to song method called")
-      let song = {id: uuid.v4(), title: this.songTitle, chords: this.songChords}
-      this.$store.commit('addSong', song)
+      if (this.songTitle && this.songChords.length != 0) {
+        let song = {id: uuid.v4(), title: this.songTitle, chords: this.songChords}
+        this.$store.commit('addSong', song)
+
+        this.saveButtonText = 'Saved'
+      } else {
+        this.saveWarning = true
+      }
+
+      
       //this.$store.commit('increment')
     }
   },
@@ -422,7 +431,20 @@ export default {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     grid-gap: 3px;
-    background-color: #70480c;
+  }
+
+  #button-save-song{
+    grid-column: 1/ -1;
+    place-self: center;
+    color: #42b983;
+    display: inline;
+    line-height: 3em;
+    padding: 0 5em;
+    background: none;
+    border-radius: 0.5em;
+    background-clip: padding-box;
+    cursor: pointer;
+    border: 1px solid #EEE;
   }
 
   .chord-selectable, .modifier-selectable {
@@ -481,7 +503,7 @@ export default {
     font-weight: 600;
   }
 
-  .clear-warning {
+  .clear-warning, .save-song-warning {
     background-color: #698c7b93;
     position: fixed;
     top: 50%;

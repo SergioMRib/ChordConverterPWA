@@ -13,4 +13,5 @@ Definição de chord:
         pos: int  -  permite permutação
         selected: bolean 
     }
- 
+Definição de savedSongs:
+    array: [Song]
