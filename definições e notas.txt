@@ -1,0 +1,17 @@
+Definição de Song:
+    objecto: {
+        id: "string",
+        title: "string",
+        chords: [array]
+    }
+
+Definição de chord:
+    objecto: {
+        id: "string",
+        mod: "string",
+        name: "nome do acorde",
+        pos: int  -  permite permutação
+        selected: bolean 
+    }
+Definição de savedSongs:
+    array: [Song]

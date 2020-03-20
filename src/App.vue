@@ -3,6 +3,7 @@
     <div id="nav">
       <router-link to="/chord-converter">Home</router-link> |
       <router-link to="/chord-converter/converter">The converter</router-link> |
+      <router-link to="/chord-converter/songs-manager">Songs Manager</router-link> |
       <router-link to="/chord-converter/about">About</router-link>
     </div>
     <router-view/>
