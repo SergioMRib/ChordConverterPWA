@@ -12,7 +12,7 @@
                 >Set title
         </button>
       </form>
-      <h3 v-if="songTitle"> {{songTitle}} </h3>
+      <h2 v-if="songTitle"> {{songTitle}} </h2>
 
       <ul class="song-list">
         <Chord
@@ -400,11 +400,6 @@ export default {
 
 <style scoped>
 
-
-  #container {
-    background-color: rgb(57, 73, 96);
-  }
-
   .song-list {
     display: grid;
     box-sizing: border-box;
@@ -416,13 +411,13 @@ export default {
   .song-list-chord {
 
     font-size: 1.3em;
-    color: #fd9800;
+    color: var(--chord-color);
     font-weight: bold;
   }
   .fullLine {
     grid-column-end: -1;
-
   }
+
   #usables {
     position: fixed;
     bottom: 5px;
@@ -431,6 +426,10 @@ export default {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     grid-gap: 3px;
+  }
+
+  form {
+    margin: 1.2em 0;
   }
 
   #button-save-song{

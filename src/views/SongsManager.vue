@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h3>Saved Songs</h3>
-    <ul>
+    <h2>Saved Songs</h2>
+    <ul id="saved-songs">
       <li
         v-bind:key="song.id"
         v-for="(song, i) in songsList"
@@ -40,10 +40,25 @@ export default {
 </script>
 
 <style scoped>
-  .songs {
-    text-align: left;
-    margin: 1em;
-  }
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#saved-songs{
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+
+}
+
+.songs {
+  text-align: left;
+  margin: 1em;
+}
 
 button {
   color: #42b983;
